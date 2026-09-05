@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type PointerEvent } from "react";
 import { ChevronLeft, ChevronRight, Network } from "lucide-react";
 import {
   SiSpringboot,
@@ -30,7 +30,7 @@ const tickerItems = [
 ];
 
 function SkillsSlider() {
-  const trackRef = useRef(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
   const scrollStartX = useRef(0);
@@ -44,24 +44,27 @@ function SkillsSlider() {
     setAtEnd(el.scrollLeft >= el.scrollWidth - el.clientWidth - 4);
   }
 
-  function scrollByAmount(amount) {
+  function scrollByAmount(amount: number) {
     trackRef.current?.scrollBy({ left: amount, behavior: "smooth" });
   }
 
-  function onPointerDown(e) {
+  function onPointerDown(e: PointerEvent<HTMLDivElement>) {
+    const el = trackRef.current;
+    if (!el) return;
     isDragging.current = true;
     dragStartX.current = e.clientX;
-    scrollStartX.current = trackRef.current.scrollLeft;
-    trackRef.current.setPointerCapture(e.pointerId);
+    scrollStartX.current = el.scrollLeft;
+    el.setPointerCapture(e.pointerId);
   }
 
-  function onPointerMove(e) {
-    if (!isDragging.current) return;
+  function onPointerMove(e: PointerEvent<HTMLDivElement>) {
+    const el = trackRef.current;
+    if (!isDragging.current || !el) return;
     const delta = e.clientX - dragStartX.current;
-    trackRef.current.scrollLeft = scrollStartX.current - delta;
+    el.scrollLeft = scrollStartX.current - delta;
   }
 
-  function onPointerUp(e) {
+  function onPointerUp(e: PointerEvent<HTMLDivElement>) {
     isDragging.current = false;
     trackRef.current?.releasePointerCapture(e.pointerId);
     updateEdges();
@@ -94,7 +97,7 @@ function SkillsSlider() {
             >
               <Icon
                 aria-hidden
-                className="h-5.5 w-6.5 shrink-0 transition-transform duration-300 ease-out group-hover:scale-125 group-hover:rotate-6"
+                className="h-5.5 w-5.5 shrink-0 transition-transform duration-300 ease-out group-hover:scale-125 group-hover:rotate-6"
                 style={{ color }}
               />
               {name}
@@ -201,8 +204,6 @@ export function Hero() {
     </section>
   );
 }
-
-
 
 
 
