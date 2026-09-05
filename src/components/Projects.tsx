@@ -23,7 +23,6 @@ const projects = [
     kind: "Project",
     description:
       "A full-stack fitness management web application built with Java and Spring Boot. Users can log workouts, manage fitness goals, track progress, and view activity statistics. The application follows a three-tier architecture with Spring controllers, service-layer business logic, Hibernate repositories, and MySQL persistence.",
-    stack: ["Docker", "Jenkins", "Python", "CI/CD"],
     stack: ["Java", "Spring Boot", "Hibernate", "JSP", "MySQL", "JavaScript", "Maven"],
     link: "https://github.com/Srushti750/fullstack_fitness_management_application.git",
   },
