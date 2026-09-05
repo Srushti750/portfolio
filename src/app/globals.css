@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/*
+  Bright, warm palette: vivid coral-orange as the primary accent,
+  golden amber as secondary, warm paper background instead of cool ink.
+  Motion: scroll-triggered reveals (see Reveal.tsx), an ambient floating
+  gradient blob in the hero, a marquee ticker, and hover lifts on cards.
+*/
+@theme inline {
+  --color-ink: #fff9f2;
+  --color-ink-panel: #ffffff;
+  --color-ink-panel-2: #fff3e6;
+  --color-ink-line: #f0dfc9;
+  --color-ink-100: #2b2118;
+  --color-ink-300: #6b5b4c;
+  --color-ink-500: #9c8a78;
+  --color-signal: #ff6b35;
+  --color-signal-dim: #ff6b3514;
+  --color-warn: #ffb627;
+  --color-accent2: #ff4d8d;
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background-color: var(--color-ink);
+  background-image:
+    linear-gradient(rgba(43, 33, 24, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43, 33, 24, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  background-position: center top;
+  background-attachment: fixed;
+  position: relative;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: #fff9f2;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
+
+.font-display {
+  font-family: var(--font-display), sans-serif;
+}
+.font-mono {
+  font-family: var(--font-mono), monospace;
+}
+
+/* ambient floating gradient blobs, used behind the hero */
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(24px, -18px) scale(1.06); }
+  66% { transform: translate(-18px, 16px) scale(0.96); }
+}
+.animate-blob {
+  animation: blob-float 16s ease-in-out infinite;
+}
+.animate-blob-slow {
+  animation: blob-float 22s ease-in-out infinite reverse;
+}
+
+/* marquee ticker for the hero skill strip */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 26s linear infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  animation: fade-up 0.6s ease-out both;
+}
